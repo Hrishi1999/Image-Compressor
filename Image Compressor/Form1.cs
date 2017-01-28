@@ -21,8 +21,10 @@ namespace Image_Compressor
         }
         private void CompressImage(Image sourceImage, int imageQuality, string savePath)
         {
+
             try
             {
+
                 ImageCodecInfo jpegCodec = null;
 
                 EncoderParameter imageQualitysParameter = new EncoderParameter(
@@ -32,6 +34,7 @@ namespace Image_Compressor
 
                 EncoderParameters codecParameter = new EncoderParameters(1);
                 codecParameter.Param[0] = imageQualitysParameter;
+
 
                 for (int i = 0; i < alleCodecs.Length; i++)
                 {
@@ -58,11 +61,18 @@ namespace Image_Compressor
         private void button1_Click(object sender, EventArgs e)
         {
 
-            openFileDialog1.ShowDialog();
-            string img = openFileDialog1.FileName;
-            pictureBox1.Image = System.Drawing.Bitmap.FromFile(img);
-            trackBar1.Value = 100;
-
+            DialogResult res = openFileDialog1.ShowDialog();
+            if (res ==  DialogResult.Cancel )
+            {
+                MessageBox.Show("Image selection cancelled by user", "Information");
+            }
+            else
+            {
+                string img = openFileDialog1.FileName;
+                pictureBox1.Image = System.Drawing.Bitmap.FromFile(img);
+                trackBar1.Value = 100;
+            }
+           
 
         }
         private void cim(Image sourceImage, int imageQuality, string savePath)
@@ -96,17 +106,13 @@ namespace Image_Compressor
             }
         }
 
-        public static Image resizeImage(Image imgToResize, Size size)
-        {
-            return (Image)(new Bitmap(imgToResize, size));
-        }
-
 
         private void button2_Click(object sender, EventArgs e)
         {
+            folderBrowserDialog1.ShowDialog();
+            string savepath = folderBrowserDialog1.SelectedPath;
             string img = openFileDialog1.FileName;
-            cim(System.Drawing.Bitmap.FromFile(img), trackBar1.Value, @"C:\Users\Hrishi\Desktop\xyz\ho.jpg");
-            pictureBox1.Image  = resizeImage(pictureBox1.Image, new Size(50, 50));
+            cim(System.Drawing.Bitmap.FromFile(img), trackBar1.Value, savepath + "/compressedimage.jpg");
 
         }
 
