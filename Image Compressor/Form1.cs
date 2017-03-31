@@ -53,10 +53,6 @@ namespace Image_Compressor
             }
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -71,8 +67,11 @@ namespace Image_Compressor
                 string img = openFileDialog1.FileName;
                 pictureBox1.Image = System.Drawing.Bitmap.FromFile(img);
                 trackBar1.Value = 100;
+                long length = new System.IO.FileInfo(openFileDialog1.FileName).Length;
+                long x = length / 1024;
+                label4.Text = x.ToString() + "KB";
             }
-           
+
 
         }
         private void cim(Image sourceImage, int imageQuality, string savePath)
@@ -118,11 +117,15 @@ namespace Image_Compressor
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (checkBox1.Checked == true)
-            {
-                h.Enabled = true;
-                w.Enabled = true;
-            }
+           //nothing here now!
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            long length = new System.IO.FileInfo(openFileDialog1.FileName).Length;
+            long x = ((trackBar1.Value * length) / 100)/1024;
+            label5.Text = x.ToString() + "KB";
+            
         }
     }
 }
