@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Image Compressor</string>
+    <string name="title_activity_resize">resize</string>
 </resources>
