@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -71,9 +72,10 @@ public class resize extends AppCompatActivity {
                         int inHeight = 0;
                         EditText he = (EditText) findViewById(R.id.editTexth);
                         EditText wi = (EditText) findViewById(R.id.editTextw);
-                        int newh = Integer.getInteger(he.toString());
-                        int neww = Integer.getInteger(wi.toString());
-
+                        String th = he.getText().toString();
+                        String tw = he.getText().toString();
+                        int newh = Integer.parseInt(th);
+                        int neww = Integer.parseInt(tw);
                         InputStream in = getContentResolver().openInputStream(mImageCaptureUri);
 
                         // decode image size (decode metadata only, not the whole image)
@@ -93,7 +95,7 @@ public class resize extends AppCompatActivity {
 
                         in = getContentResolver().openInputStream(mImageCaptureUri);
                         options = new BitmapFactory.Options();
-                        // calc rought re-size (this is no exact resize)
+                        // calc rough re-size (this is no exact resize)
                         options.inSampleSize = Math.max(inWidth/dstWidth, inHeight/dstHeight);
                         // decode full image
                         Bitmap roughBitmap = BitmapFactory.decodeStream(in, null, options);
