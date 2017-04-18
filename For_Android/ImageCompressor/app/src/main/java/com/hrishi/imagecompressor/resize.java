@@ -78,29 +78,23 @@ public class resize extends AppCompatActivity {
                         int neww = Integer.parseInt(tw);
                         InputStream in = getContentResolver().openInputStream(mImageCaptureUri);
 
-                        // decode image size (decode metadata only, not the whole image)
                         BitmapFactory.Options options = new BitmapFactory.Options();
                         options.inJustDecodeBounds = true;
                         BitmapFactory.decodeStream(in, null, options);
                         in.close();
                         in = null;
 
-                        // save width and height
                         inWidth = options.outWidth;
                         inHeight = options.outHeight;
 
-                        // decode full image pre-resized
                         int dstWidth = neww;
                         int dstHeight = newh;
 
                         in = getContentResolver().openInputStream(mImageCaptureUri);
                         options = new BitmapFactory.Options();
-                        // calc rough re-size (this is no exact resize)
                         options.inSampleSize = Math.max(inWidth/dstWidth, inHeight/dstHeight);
-                        // decode full image
                         Bitmap roughBitmap = BitmapFactory.decodeStream(in, null, options);
 
-                        // calc exact destination size
                         Matrix m = new Matrix();
                         RectF inRect = new RectF(0, 0, roughBitmap.getWidth(), roughBitmap.getHeight());
                         RectF outRect = new RectF(0, 0, dstWidth, dstHeight);
@@ -130,26 +124,8 @@ public class resize extends AppCompatActivity {
                     {
                        e.printStackTrace();
                     }
-                    /*
-                    //
-                    EditText he = (EditText) findViewById(R.id.editTexth);
-                    EditText wi = (EditText) findViewById(R.id.editTextw);
-                    int newh = Integer.getInteger(he.toString());
-                    int neww = Integer.getInteger(wi.toString());
 
-                    String path = Environment.getExternalStorageDirectory().toString();
-                    OutputStream fOut = null;
-                    File file = new File(path, pathx);
-                    fOut = new FileOutputStream(file);
-                    InputStream imageStream = getContentResolver().openInputStream(mImageCaptureUri);
-                    Bitmap to_save = BitmapFactory.decodeStream(imageStream);
-                    to_save.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-                    fOut.flush();
-                    fOut.close();
-
-
-                            */
-                }
+                                   }
 
                 catch (Exception e)
                 {
@@ -176,28 +152,6 @@ public class resize extends AppCompatActivity {
         });
 
     }
-/*
-    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
-
-
-            int width = bm.getWidth();
-            int height = bm.getHeight();
-            float scaleWidth = ((float) newWidth) / width;
-            float scaleHeight = ((float) newHeight) / height;
-            // CREATE A MATRIX FOR THE MANIPULATION
-            Matrix matrix = new Matrix();
-            // RESIZE THE BIT MAP
-            matrix.postScale(scaleWidth, scaleHeight);
-
-            // "RECREATE" THE NEW BITMAP
-            Bitmap resizedBitmap = Bitmap.createBitmap(
-                    bm, 0, 0, width, height, matrix, false);
-            bm.recycle();
-            return resizedBitmap;
-        }
-        */
-
-
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
